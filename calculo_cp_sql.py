@@ -25,7 +25,10 @@ try:
         #modelo='P5802450411'
         '''mysql query data'''
         #query_select_mysql='SELECT Button'+str(n)+'_Value FROM opcua_client_db.test_result ORDER BY Id DESC limit 50'
-        query_select_mysql='SELECT Button'+str(n)+'_Value FROM opcua_client_db.test_result where test_result.Modelo="'+modelo+'" ORDER BY Id DESC limit 200'
+        if modelo != "":
+            query_select_mysql = 'SELECT Button' + str(n) + '_Value FROM opcua_client_db.test_result where test_result.Modelo="' + modelo + '" ORDER BY Id DESC limit 50'
+        else:
+            query_select_mysql='SELECT Button'+str(n)+'_Value FROM opcua_client_db.test_result ORDER BY Id DESC limit 100'
         data=pd.read_sql(query_select_mysql,con=db)
         data.columns = ['valores']
         dataf=filtrar(data)
@@ -61,7 +64,10 @@ try:
         print(type(mean))
         print(type(cpk_sql))
         print(date, Button, mean, toli, tols, (cp_sql), (cpk_sql))
-        query_insert = "INSERT  opcua_client_db.results_cpk_ (Date,Button,Media,Tol_inf,Tol_sup,cp,cpk,modelo) VALUES ('"+str(date)+"','"+Button+"','"+str(mean)+"','"+str(toli)+"','"+str(tols)+"','"+str(cp_sql)+"','"+str(cpk_sql)+"','"+str(modelo)+"')"
+        if modelo != "":
+            query_insert = "INSERT  opcua_client_db.results_cpk_ (Date,Button,Media,Tol_inf,Tol_sup,cp,cpk,modelo) VALUES ('"+str(date)+"','"+Button+"','"+str(mean)+"','"+str(toli)+"','"+str(tols)+"','"+str(cp_sql)+"','"+str(cpk_sql)+"','"+str(modelo)+"')"
+        else:
+            query_insert = "INSERT  opcua_client_db.results_cpk_ (Date,Button,Media,Tol_inf,Tol_sup,cp,cpk,modelo) VALUES ('" + str(date) + "','" + Button + "','" + str(mean) + "','" + str(toli) + "','" + str(tols) + "','" + str(cp_sql) + "','" + str(cpk_sql) + "','todos')"
         cursor=db.cursor()
         cursor.execute(query_insert)
         db.commit()
