@@ -5,31 +5,9 @@ import mysql.connector as mysql
 import datetime
 import matplotlib.pyplot as plt
 from tkinter import *
+from calculos import cp,cpk,cpl,cpu,filtrar
+from interfaz import introducemodelo,modelovar
 
-
-class introducemodelo():
-    def __init__(self):
-        self.newWindow()
-    def newWindow(self):
-        # define your window
-        root = Tk()
-        root.geometry("400x100")
-        root.resizable(False, False)
-        root.title("Modelo Application")
-        # add labels
-        label1 = Label(text='Introduce el modelo')
-        label1.pack()
-        canvas1 = Canvas(root)
-        canvas1.pack()
-        entry1 = Entry(root)
-        canvas1.create_window(200, 20, window=entry1)
-        def addmodelo():
-            global modelo_input
-            modelo_input = entry1.get()
-            print('modelo addmodelo'+modelo_input)
-        button1 = Button(canvas1, text='Run Report', command=addmodelo)
-        canvas1.create_window(200, 50, window=button1)
-        root.mainloop()
 
 
 try:
@@ -38,59 +16,8 @@ try:
 except mysql.Error as err:
         print ('error de conexion ala BBDD'+str(err))
 
-def cp(mylist, usl, lsl):
-    sigma=mylist.std(axis=0)
-    sigma=(float(sigma))
-    if sigma==0:
-        cp=0
-        return cp
-    else:
-        print('sigma= '+str(sigma)+' usl'+str(usl)+' lsl'+str(lsl)+' resta'+ str(float(usl-lsl)))
-        cp = float(usl - lsl) / (6 * sigma)
-        return cp
-def filtrar (data):
-    datafiltered = data[(data != 0)]  # quitar ceros y nulos
-    Q1 = datafiltered.quantile(0.15)
-    Q3 = datafiltered.quantile(0.85)
-    IQR = Q3 - Q1
-    data_noutliers = datafiltered[~((datafiltered < (Q1 - 1.5 * IQR)) | (datafiltered > (Q3 + 1.5 * IQR))).any(axis=1)]
-    return data_noutliers
-def cpk(mylist, usl, lsl):
-    sigma = mylist.std(axis=0)
-    sigma = (float(sigma))
-    if sigma==0:
-        cpk=0
-        return cpk
-    else:
-        m=mylist['valores'].mean()
-        Cpu = float(usl - m) / (3 * sigma)
-        Cpl = float(m - lsl) / (3 * sigma)
-        cpk = np.min([Cpu, Cpl])
-        return cpk
-def cpu(mylist,usl):
-    sigma = mylist.std(axis=0)
-    sigma = (float(sigma))
-    if sigma == 0:
-        cpu = 0
-        return cpu
-    else:
-        m = mylist['valores'].mean()
-        Cpu = m+(sigma*3)
-        return Cpu
-def cpl(mylist,lsl):
-    sigma = mylist.std(axis=0)
-    sigma = (float(sigma))
-    if sigma == 0:
-        cpl = 0
-        return cpl
-    else:
-        m = mylist['valores'].mean()
-        Cpl = m-(sigma*3)
-        return Cpl
-
-
 introducemodelo()
-modelo=modelo_input
+modelo=modelovar()
 
 try:
     for i in range(13):
