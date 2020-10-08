@@ -1,12 +1,9 @@
 import pandas as pd
 import numpy as np
-import os
 import math
 import mysql.connector as mysql
-import pyodbc
 import datetime
 import matplotlib.pyplot as plt
-import seaborn as sns
 from tkinter import *
 
 
