@@ -33,7 +33,7 @@ try:
 
         '''mysql select modelos'''
         query_modelos_mysql="SELECT Button, tol_inf_n, tol_sup_n FROM modelos WHERE Button='Button"+str(n)+"_Value' AND Modelo='"+str(modelo)+"'"
-        query_modelos_mysql_nm="SELECT Button, tol_inf_n, tol_sup_n FROM modelos WHERE Button='Button"+str(n)+"_Value' AND Modelo='P5802450411'"
+        query_modelos_mysql_nm="SELECT Button, tol_inf_n, tol_sup_n FROM modelos WHERE Button='Button"+str(n)+"_Value' AND Modelo='TODOS'"
         query=querys(modelo,query_modelos_mysql,query_modelos_mysql_nm)
         modelos=pd.read_sql(query,con=db)
         toli=modelos.iloc[0, 1]
