@@ -25,7 +25,7 @@ try:
         #modelo='P5802450411'
         '''mysql query data'''
         query_select_mysql = 'SELECT Button' + str(n) + '_Value     FROM opcua_client_db.test_result where test_result.Modelo="' + modelo + '" ORDER BY Id DESC limit 50'
-        query_select_mysql_nm = 'SELECT Button' + str(n) + '_Value FROM opcua_client_db.test_result ORDER BY Id DESC limit 200'
+        query_select_mysql_nm = 'SELECT Button' + str(n) + '_Value FROM opcua_client_db.test_result ORDER BY Id DESC limit 600'
         query=querys(modelo,query_select_mysql,query_select_mysql_nm)
         data = pd.read_sql(query, con=db)
         data.columns = ['valores']
@@ -38,6 +38,14 @@ try:
         modelos=pd.read_sql(query,con=db)
         toli=modelos.iloc[0, 1]
         tols=modelos.iloc[0,2]
+        if modelo=='P5802450411':
+            if n==2:
+                dataf=dataf[dataf>40]
+                dataf=dataf[dataf<80]
+            else:
+                dataf=dataf
+        else:
+            dataf=dataf
         cp_sql = cp(dataf, tols, toli)  # Calcular cpks
         cpk_sql = cpk(dataf, tols, toli)
         fcpu = cpu(dataf, tols)
