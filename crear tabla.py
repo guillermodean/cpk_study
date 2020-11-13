@@ -16,10 +16,10 @@ query = 'SELECT * FROM opcua_client_db.test_result  ORDER BY Id DESC'
 data = pd.read_sql(query, con=db)
 
 def means(data,fecha):
-    print(data.info())
+    #print(data.info())
 
     datafecha=data[data['Date']>fecha]
-    print(datafecha.info())
+    #print(datafecha.info())
     dataall=datafecha.merge(familias,on='Modelo')
     dataall=dataall.drop(['Id'],axis=1)
     dataall = dataall[['Modelo','familia','Button1_Value','Button2_Value','Button3_Value','Button4_Value','Button5_Value','Button6_Value','Button7_Value','Button8_Value','Button9_Value','Button10_Value','Button11_Value','Button12_Value','Button13_Value']]
@@ -54,17 +54,18 @@ def boxplot(data):
     datapivotf = datafm.pivot_table(dataf, columns='familia')
     #print(datapivotf)
     corr=datapivotf.corr()
-    sns.heatmap(corr, xticklabels=corr.columns, yticklabels=corr.columns)
-    plt.show()
+    #sns.heatmap(corr, xticklabels=corr.columns, yticklabels=corr.columns)
+    #plt.show()
     #print(corr)
     return datafm
 
 
 dataporfamilia=graficamedias(data)
-print(dataporfamilia)
-#databutton=dataporfamilia[['Modelo','Button1_Value','Button2_Value','Button3_Value','Button4_Value','Button5_Value','Button6_Value','Button7_Value','Button7_Value','Button8_Value','Button9_Value','Button10_Value','Button11_Value','Button12_Value','Button13_Value']]
-#databutton.boxplot(column='Button1_Value',by='Modelo')
-for i in range(13):
+#print(dataporfamilia)
+
+
+
+"""for i in range(13):
     a = i + 1
     fig = plt.figure()
     date = '2020-10-01'
@@ -80,21 +81,10 @@ for i in range(13):
         name=label
         print(count,label)
         sns.distplot(df, label=label, hist=False)
-
-    """
-    sns.distplot(dataHCS,label='HCS',hist=False)
-    sns.distplot(datafamily1['Base'],label='Base',hist=False)
-    sns.distplot(datafamily1['Base- P'],label='Base- P',hist=False)
-    sns.distplot(datafamily1['Ricco'],label='Ricco',hist=False)
-    sns.distplot(datafamily1['Ricco- P'],label='Ricco- P',hist=False)
-    sns.distplot(datafamily1['Ricco- P -G'],label='Ricco- P- G',hist=False)"""
     plt.title('Button' + str(a) + '_Value n=' + str(count))
     fig.legend()
-
+"""
 databoxplot=boxplot(data)
-for i in range(13):
-    a=i+1
-    databoxplot.boxplot(column=('Button'+str(a)+'_Value'),by='familia')
 
 for i in range(13):
     a = i + 1
@@ -102,5 +92,26 @@ for i in range(13):
     datacol = datacol.replace(0, np.nan)
     datacol = datacol.dropna(how='all', axis=0)
     x = pd.Series(datacol, name='Button'+str(a)+'_Value')
-    ax = sns.distplot(x)
+
+    date = '2020-10-01'
+    datafamily = means(data, date)
+    datafamily1 = (datafamily['Button' + str(a) + '_Value'])
+    recuento = len(datafamily1)
+    datafamily1 = datafamily1.dropna(how='all', axis=0)
+    fig, axes = plt.subplots(1, 3, figsize=(10, 5))
+    fig.suptitle('Title')
+    axes[0].set_title('DIST')
+    axes[1].set_title('BOX')
+
+    for label, content in datafamily1.items():
+        df = content.to_frame()
+        df = df.dropna(how='all', axis=0)
+        count = len(df)
+        name = label
+        #print(count, label)
+        axes[2].set_title('Button' + str(a) + '_Value n=' + str(count))
+        ax2=sns.distplot(df,ax=axes[2], label=label, hist=False)
+        ax = sns.distplot(x,ax=axes[0])
+        ax1 = sns.boxplot(ax=axes[1],data=databoxplot, x='familia', y=('Button' + str(a) + '_Value'))
+        ax2.legend()
 plt.show()
