@@ -9,7 +9,7 @@ from calculos import cp,cpk,cpl,cpu,filtrar
 from interfaz import introducemodelo,modelovar
 from query import querys
 import seaborn as sns
-
+from conexion import conexion
 
 try:
     db = mysql.connect(host='10.73.83.220', user='calidad', password='Pamp3701', db='opcua_client_db')
@@ -26,7 +26,7 @@ try:
         #modelo='P5802450411'
         '''mysql query data'''
         query_select_mysql = 'SELECT Button' + str(n) + '_Value     FROM opcua_client_db.test_result where test_result.Modelo="' + modelo + '" ORDER BY Id DESC limit 50'
-        query_select_mysql_nm = 'SELECT Button' + str(n) + '_Value FROM opcua_client_db.test_result ORDER BY Id DESC limit 600'
+        query_select_mysql_nm = 'SELECT Button' + str(n) + '_Value FROM opcua_client_db.test_result ORDER BY Id DESC limit 50'
         query=querys(modelo,query_select_mysql,query_select_mysql_nm)
         data = pd.read_sql(query, con=db)
         data.columns = ['valores']
