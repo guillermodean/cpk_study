@@ -8,6 +8,7 @@ from tkinter import *
 from calculos import cp,cpk,cpl,cpu,filtrar
 from interfaz import introducemodelo,modelovar
 from query import querys
+import os
 import seaborn as sns
 from conexion import conexion
 
@@ -98,6 +99,9 @@ try:
             axes[1].set_xlim(0,180)
             axes[1].set_ylabel('muestras')
             axes[1].set_xlabel('Nm')
+            #my_path = os.path.abspath(__file__)  # Figures out the absolute path for you in case your working directory moves around.
+            my_file = 'graph+'+str(n)+'.png'
+            fig.savefig('graphs/'+my_file)
             plt.show()
         else:
             print('No data'+Button)
