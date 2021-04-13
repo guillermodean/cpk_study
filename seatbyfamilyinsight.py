@@ -11,7 +11,7 @@ from helpers.conexion import conexion
 familias = pd.read_csv('helpers/familias.csv', sep=';', names=['modeloISRI', 'Modelo', 'nombre', 'familia'])
 query = 'SELECT * FROM opcua_client_db.test_result  ORDER BY Id DESC'
 data = pd.read_sql(query, con=conexion())
-date = '2021-03-01'
+date = '2021-01-01'
 
 graficamedias(data, date, familias)
 data = filtraryjuntar(data, date, familias)
