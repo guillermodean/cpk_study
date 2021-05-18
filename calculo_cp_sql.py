@@ -6,7 +6,11 @@ from helpers.query import querys
 from helpers.conexion import conexion
 from helpers.getdata import getdata
 from helpers.graficar import graficar
+from helpers.Tendencia_CPK import tendenciacpk
 import time
+import pandas as pd
+
+
 while True:
     #introducemodelo()
     #modelo = modelovar()
@@ -59,9 +63,10 @@ while True:
             """graficar"""
 
             graficar(mean, Button, cpk_sql, cp_sql, recuento, dataf, data, toli, tols, fcpl, fcpu, n)
-
-
+            # Tendencias captura los resultados medidos anteriormente y los grafica desde una fecha establecida
+            tendenciacpk(db,n)
         print('endoflines')
         time.sleep(86400)
-    except:
-        print('error total')
+
+    except ValueError:
+        print('error total'+ValueError)
