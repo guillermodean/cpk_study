@@ -10,7 +10,7 @@ def tendenciacpk(db, n):
     cpkten = cpkten[cpkten['Date'] > '2021-05-13']
     x = cpkten['Date']
     y = cpkten['cpk']
-    z = [1.66]* len(cpkten['Date'])
+    z = [1.66] * len(cpkten['Date'])
     fig = plt.figure(figsize=(8, 5))
     plt.plot(x, y)
     plt.plot(x, z, color='red', linestyle='--')

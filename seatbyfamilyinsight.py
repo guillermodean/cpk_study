@@ -8,7 +8,8 @@ from helpers.calculos import filtraryjuntar
 from helpers.calculos import means
 from helpers.conexion import conexion
 
-familias = pd.read_csv('helpers/familias.csv', sep=';', names=['modeloISRI', 'Modelo', 'nombre', 'familia'])
+familias = pd.read_csv('helpers/familias.csv', sep=';',
+                       names=['modeloISRI', 'Modelo', 'nombre', 'familia'])
 query = 'SELECT * FROM opcua_client_db.test_result  ORDER BY Id DESC'
 data = pd.read_sql(query, con=conexion())
 date = '2021-01-01'
@@ -42,6 +43,7 @@ for i in range(13):
         axes[2].set_title('DIST_FAM N=' + str(count))
         ax2 = sns.distplot(df, ax=axes[2], label=label, hist=False)
         ax = sns.distplot(x, ax=axes[0])
-        ax1 = sns.boxplot(ax=axes[1], data=databoxplot, x='familia', y=('Button' + str(a) + '_Value'))
+        ax1 = sns.boxplot(ax=axes[1], data=databoxplot,
+                          x='familia', y=('Button' + str(a) + '_Value'))
         ax2.legend()
 plt.show()

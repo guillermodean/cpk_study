@@ -1,28 +1,31 @@
 import numpy as np
 
 
-def cp(mylist, usl, lsl):
+def cp(mylist, usl, lsl):  # calculo capacidad del equipo a partir de una lista el limite inferior y el limite superior
     sigma = mylist.std(axis=0)
     sigma = (float(sigma))
     if sigma == 0:
         cp = 0
         return cp
     else:
-        print('sigma= ' + str(sigma) + ' usl' + str(usl) + ' lsl' + str(lsl) + ' resta' + str(float(usl - lsl)))
+        print('sigma= ' + str(sigma) + ' usl' + str(usl) +
+              ' lsl' + str(lsl) + ' resta' + str(float(usl - lsl)))
         cp = float(usl - lsl) / (6 * sigma)
         return cp
 
 
-def filtrar(data):
-    datafiltered = data[(data != 0)]  # quitar ceros y nulos
+def filtrar(data):  # removes zeros and values that fall outside the quantiles 15%
+    # quitar ceros y nulos TODO dropna y que coja mas datos. no dejar los ceros
+    datafiltered = data[(data != 0)]
     Q1 = datafiltered.quantile(0.15)
     Q3 = datafiltered.quantile(0.85)
     IQR = Q3 - Q1
-    data_noutliers = datafiltered[~((datafiltered < (Q1 - 1.5 * IQR)) | (datafiltered > (Q3 + 1.5 * IQR))).any(axis=1)]
+    data_noutliers = datafiltered[~((datafiltered < (
+        Q1 - 1.5 * IQR)) | (datafiltered > (Q3 + 1.5 * IQR))).any(axis=1)]
     return data_noutliers
 
 
-def cpk(mylist, usl, lsl):
+def cpk(mylist, usl, lsl):  # calculation of the process capacity from a list, the lower limit and the upper limit
     sigma = mylist.std(axis=0)
     sigma = (float(sigma))
     if sigma == 0:
@@ -36,7 +39,7 @@ def cpk(mylist, usl, lsl):
         return cpk
 
 
-def cpu(mylist, usl):
+def cpu(mylist, usl):  # calculation of the process capacity based on its upper limit
     sigma = mylist.std(axis=0)
     sigma = (float(sigma))
     if sigma == 0:
@@ -48,7 +51,7 @@ def cpu(mylist, usl):
         return Cpu
 
 
-def cpl(mylist, lsl):
+def cpl(mylist, lsl):  # calculation of the process capacity based on its lower limit
     sigma = mylist.std(axis=0)
     sigma = (float(sigma))
     if sigma == 0:

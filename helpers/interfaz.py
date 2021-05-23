@@ -1,8 +1,10 @@
 from tkinter import *
 
-class introducemodelo():
+
+class introducemodelo():  # interface to introduce the model, if the model is  blank the program will launch the calculation for all models
     def __init__(self):
         self.newWindow()
+
     def newWindow(self):
         # define your window
         root = Tk()
@@ -16,6 +18,7 @@ class introducemodelo():
         canvas1.pack()
         entry1 = Entry(root)
         canvas1.create_window(200, 20, window=entry1)
+
         def addmodelo():
             global modelo_input
             modelo_input = entry1.get()
@@ -24,7 +27,6 @@ class introducemodelo():
         root.mainloop()
 
 
-
 def modelovar():
-    modelovar=modelo_input
+    modelovar = modelo_input
     return modelovar

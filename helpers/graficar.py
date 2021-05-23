@@ -1,9 +1,11 @@
 import matplotlib.pyplot as plt
 
-def graficar(mean,Button,cpk_sql,cp_sql,recuento,dataf,data,toli,tols,fcpl,fcpu,n):
+
+def graficar(mean, Button, cpk_sql, cp_sql, recuento, dataf, data, toli, tols, fcpl, fcpu, n):
     if mean != 0:
         fig, axes = plt.subplots(1, 2)
-        fig.suptitle("grafica " + Button + " CPK " + str(cpk_sql) + " cp " + str(cp_sql) + " n=" + str(recuento))
+        fig.suptitle("grafica " + Button + " CPK " + str(cpk_sql) +
+                     " cp " + str(cp_sql) + " n=" + str(recuento))
         axes[0].set_title('cpk')
         axes[0].plot(dataf, label='datos')
         axes[0].plot(data, '--', label='sinfiltrar')
@@ -22,7 +24,7 @@ def graficar(mean,Button,cpk_sql,cp_sql,recuento,dataf,data,toli,tols,fcpl,fcpu,
         # my_path = os.path.abspath(__file__)  # Figures out the absolute path for you in case your working
         # directory moves around.
         my_file = 'graph+' + str(n) + '.png'
-        #plt.show()
+        # plt.show()
         fig.savefig('graphs/' + my_file)
 
     else:
