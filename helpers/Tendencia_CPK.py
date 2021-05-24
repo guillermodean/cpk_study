@@ -12,6 +12,9 @@ def tendenciacpk(db, n):
     y = cpkten['cpk']
     z = [1.66] * len(cpkten['Date'])
     fig = plt.figure(figsize=(8, 5))
+    plt.title('Button' + str(n) + '_Value')
+    plt.xlabel('Date')
+    plt.ylabel('cpk')
     plt.plot(x, y)
     plt.plot(x, z, color='red', linestyle='--')
     my_file = 'cpk_graph+' + str(n) + '.png'
